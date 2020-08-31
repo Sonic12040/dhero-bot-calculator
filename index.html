@@ -33,6 +33,8 @@
           error.textContent =
             "Please input a number, without any spaces, commas, or other characters.";
           return;
+        } else if (parsedInput < 0) {
+          error.textContent = "Getting wise, huh? Insert a positive number.";
         } else {
           error.textContent = "";
         }
@@ -43,38 +45,26 @@
         let totalPoints = 0;
         let botLevel = 0;
         let modifier = 1.06;
-        const resultNode = document.createElement("ul");
-        if (isNaN(parsedInput) || parsedInput === 0) {
+        if (!isNaN(parsedInput) || !parsedInput === 0) {
+          const resultNode = document.createElement("ul");
           for (botLevel = 5; totalPoints < parsedInput; botLevel += 5) {
             totalPoints += Math.round(botLevel * 23 * modifier);
-            // participationPoints += 2 * botLevel;
-            // finderPoints += 3 * botLevel;
-            // finisherPoints += 4 * botLevel;
-            // damagePoints += 7 * botLevel;
           }
           const botLevelListItem = document.createElement("li");
           const breakersListItem = document.createElement("li");
-          // const participationListItem = document.createElement("li");
-          // const finderListItem = document.createElement("li");
-          // const finisherListItem = document.createElement("li");
-          // const tenPercentDamageListItem = document.createElement("li");
-          // const mostDamageListItem = document.createElement("li");
           const totalPointsListItem = document.createElement("li");
-          botLevelListItem.textContent = `Bot Level: ${botLevel}`;
-          breakersListItem.textContent = `Breakers: ${botLevel / 5}`;
-          // participationListItem.textContent = `Participation Points: ${participationPoints}`;
-          // finderListItem.textContent = `Finder Points: ${finderPoints}`;
-          // finisherListItem.textContent = `Finisher Points: ${finisherPoints}`;
-          // tenPercentDamageListItem.textContent = `10% Damage Points: ${damagePoints}`;
-          // mostDamageListItem.textContent = `Most Damage Points: ${damagePoints}`;
-          totalPointsListItem.textContent = `Total Points: ${totalPoints}`;
+          const replacedTotalPoints = totalPoints
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          botLevelListItem.textContent = `Bot Level: ${botLevel
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+          breakersListItem.textContent = `Breakers: ${(botLevel / 5)
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+          totalPointsListItem.textContent = `Total Points: ${replacedTotalPoints}`;
           resultNode.appendChild(botLevelListItem);
           resultNode.appendChild(breakersListItem);
-          // resultNode.appendChild(participationListItem);
-          // resultNode.appendChild(finderListItem);
-          // resultNode.appendChild(finisherListItem);
-          // resultNode.appendChild(tenPercentDamageListItem);
-          // resultNode.appendChild(mostDamageListItem);
           resultNode.appendChild(totalPointsListItem);
           success.appendChild(resultNode);
         }
